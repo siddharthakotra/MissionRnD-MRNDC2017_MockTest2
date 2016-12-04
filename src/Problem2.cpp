@@ -46,9 +46,69 @@ Constraints :
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+void rotate_array_helper(int**, int, char);
+void rotate_right(int**, int len);
+void rotate_left(int**, int len);
 
 void rotateArray(int **arr, int len, char *seq)
 {
 	//Manipulate input array for output
+	if (len <= 0 || len > 500 || strlen(seq) <= 0 || strlen(seq) > 500){
+		return;
+	}
+	int i;
+	for (i = 0; seq[i] != '\0'; i++){
+		rotate_array_helper(arr, len, seq[i]);
+	}
+	
+}
+void rotate_array_helper(int **a, int len, char seq){
+	switch (seq){
+		case 'l':
+		case 'L':
+			rotate_left(a, len);
+			break;
+		case 'r':
+		case 'R':
+			rotate_right(a, len);
+			break;
+	}
+}
+void rotate_left(int** arr, int len){
+	int i, j, k = 0, l = 0;
+	int **b;
+	b = (int**)malloc(len*(sizeof(int*)));
+	for (i = 0; i < len; i++){
+		b[i] = (int*)malloc(len*(sizeof(int)));
+	}
+	for (i = len - 1, k = 0; i >= 0; i--,k++){
+		for (j = 0, l = 0; j < len; j++,l++){
+			b[k][l] = arr[j][i];
+		}
+	}
+	for (i = 0; i < len; i++){
+		for (j = 0; j < len; j++){
+			arr[i][j] = b[i][j];
+		}
+	}
+}
+void rotate_right(int **arr, int len){
+	int i, j, k = 0, l = 0;
+	int **b;
+	b = (int**)malloc(len*(sizeof(int*)));
+	for (i = 0; i < len; i++){
+		b[i] = (int*)malloc(len*(sizeof(int)));
+	}
+	for (i = 0, k = 0; i < len; i++,k++){
+		for (j = len-1,l = 0; j >= 0; j--, l++){
+			b[k][l] = arr[j][i];
+		}
+	}
+	for (i = 0; i < len; i++){
+		for (j = 0; j < len; j++){
+			arr[i][j] = b[i][j];
+		}
+	}
 }

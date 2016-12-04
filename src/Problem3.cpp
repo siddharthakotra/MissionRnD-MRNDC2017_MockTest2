@@ -36,9 +36,74 @@ struct node
 	struct node *prev;
 	struct node *next;
 };
-
+void permute(int *, int, int, int,int);
+void swap(int*, int*);
+int count = 1;
+int found = 0;
 
 int doorstoCross(struct node *passKey)
 {
-	return -1;
+	if (passKey == NULL){
+		return -1;
+	}
+	struct node *temp = passKey;
+	int *a = (int*)malloc(15 * sizeof(int)), i = 0, num = 0, j, k;
+	while (temp){
+		a[i++] = temp->num;
+		num = num * 10 + temp->num;
+		temp = temp->next;
+	}
+	i--;
+	if (i > 12){
+		return -1;
+	}
+	for (j = 0; j < i + 1; j++){
+		for (k = 0; k < i; k++){
+			if (a[k]<a[k + 1]){
+				swap(&a[k], &a[k + 1]);
+			}
+		}
+	}
+	count = 1;
+	found = 0;
+	permute(a, 0, i,i,num);
+	return count;
+	
+}
+void permute(int *a, int x, int y,int len,int num)
+{
+	int i, result = 0;
+	if (found == 1){
+		return;
+	}
+	if (x == y){
+		for (int j = 0; j <= len; j++){
+			result = result * 10 + a[j];
+		}
+		if (result == num){
+			found = 1;
+			return;
+		}
+		else{
+			count++;
+			return;
+		}
+	}
+	else
+	{
+		for (i = x; i <= y; i++)
+		{
+			swap((a + x), (a + i));
+			 permute(a, x + 1, y,len,num);
+			 if (found == 1){
+				 return;
+			 }
+			swap((a + x), (a + i));
+		}
+	}
+}
+void swap(int *x, int *y){
+	int temp = *x;
+	*x = *y;
+	*y = temp;
 }
