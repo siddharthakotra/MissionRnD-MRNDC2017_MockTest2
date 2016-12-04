@@ -36,7 +36,7 @@ struct node
 	struct node *prev;
 	struct node *next;
 };
-void permute(int *, int, int, int,int);
+void permute(int *, int, int, int, long);
 void swap(int*, int*);
 int count = 1;
 int found = 0;
@@ -47,7 +47,8 @@ int doorstoCross(struct node *passKey)
 		return -1;
 	}
 	struct node *temp = passKey;
-	int *a = (int*)malloc(15 * sizeof(int)), i = 0, num = 0, j, k;
+	int *a = (int*)malloc(15 * sizeof(int)), i = 0, j, k;
+	long num = 0;
 	while (temp){
 		a[i++] = temp->num;
 		num = num * 10 + temp->num;
@@ -70,9 +71,10 @@ int doorstoCross(struct node *passKey)
 	return count;
 	
 }
-void permute(int *a, int x, int y,int len,int num)
+void permute(int *a, int x, int y,int len,long num)
 {
-	int i, result = 0;
+	int i;
+	long result = 0;
 	if (found == 1){
 		return;
 	}
